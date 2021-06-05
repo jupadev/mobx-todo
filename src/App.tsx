@@ -1,24 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import FormNotes from './components/FormNotes';
+import { useNotesStore } from './notesContext';
+import { Observer } from 'mobx-react';
 
-function App() {
+const App = () => {
+  const notes = useNotesStore();
+  console.log('notes', notes?.notes)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" style={{marginTop: 20}}>
+      <FormNotes />
+      <ul>
+        <Observer>{() => <>
+          {notes?.notes.map((note) => 
+            <li key={note.id}>{note.text}</li>
+          )}
+        </>}
+        </Observer>
+      </ul>
     </div>
   );
 }
